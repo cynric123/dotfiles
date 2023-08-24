@@ -123,8 +123,11 @@ if [[ $(grep -i -s Microsoft /proc/version) ]]; then
 fi
 
 # setup config fileshare alias
-export DOTBARE_DIR="$HOME/.cfg"
-export DOTBARE_TREE="$HOME"
+if type dotbare &> /dev/null; then
+	alias dots=dotbare
+	# bind ctrl-g to 'dots fedit'
+	bindkey -s '^g' "dotbare fedit"^j
+fi
 
 # Installed curl from homebrew, add to PATH 
 export PATH="/opt/homebrew/opt/curl/bin:$PATH"
@@ -134,7 +137,7 @@ export PATH="/opt/homebrew/opt/curl/bin:$PATH"
 # export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
 if type fd &> /dev/null; then
 	export FZF_DEFAULT_COMMAND="fd --type f --strip-cwd-prefix --hidden --follow"
-	# export FZF_CTRL_T_COMMAND= "$FZF_DEFAULT_COMMAND"
+	export FZF_CTRL_T_COMMAND= "$FZF_DEFAULT_COMMAND"
 	export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --border'
 	# Preview file content using bat (https://github.com/sharkdp/bat)
 	export FZF_CTRL_T_OPTS="
