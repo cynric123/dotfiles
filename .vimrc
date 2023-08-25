@@ -157,6 +157,7 @@ let g:gutentags_cache_dir="~/.tags_cache"
 "" fzf
 " use fd instead of Find
 let $FZF_DEFAULT_COMMAND = 'fd --type f'
+" let $FZF_DEFAULT_OPTS = ''
 
 """"""""""""""""""""""""""""""""""
 "    Colorscheme/UI Modifiers    "

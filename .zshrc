@@ -111,23 +111,19 @@ source $ZSH/oh-my-zsh.sh
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 
+# setup config fileshare alias
+if type dotbare &> /dev/null; then
+	alias dots='dotbare'
+	# bind ctrl-g to 'dots fedit'
+	bindkey -s '^g' "dotbare fedit"^j
+else
+	echo "missing dependancy: dotbare"
+fi
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# check for WSL and apply aliases
-if [[ $(grep -i -s Microsoft /proc/version) ]]; then
-	alias fd=fdfind
-	alias bat=batcat
-fi
-
-# setup config fileshare alias
-if type dotbare &> /dev/null; then
-	alias dots=dotbare
-	# bind ctrl-g to 'dots fedit'
-	bindkey -s '^g' "dotbare fedit"^j
-fi
 
 # Installed curl from homebrew, add to PATH 
 export PATH="/opt/homebrew/opt/curl/bin:$PATH"
@@ -137,14 +133,21 @@ export PATH="/opt/homebrew/opt/curl/bin:$PATH"
 # export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
 if type fd &> /dev/null; then
 	export FZF_DEFAULT_COMMAND="fd --type f --strip-cwd-prefix --hidden --follow"
-	export FZF_CTRL_T_COMMAND= "$FZF_DEFAULT_COMMAND"
-	export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --border'
+	# export FZF_DEFAULT_OPTS="--preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
+	export FZF_DEFAULT_OPTS="
+		--height 60% 
+		--layout=reverse 
+		--preview 'bat -n --color=always {}'
+		--border"
 	# Preview file content using bat (https://github.com/sharkdp/bat)
+	export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 	export FZF_CTRL_T_OPTS="
 		--preview 'bat -n --color=always {}'
 		--bind 'ctrl-/:change-preview-window(down|hidden|)'"
 	# Print tree structure in the preview window
 	export FZF_ALT_C_OPTS="--preview 'tree -C {}'"
+else
+	echo "missing dependancy: fd"
 fi
 
 #cused to source keybinds related to fzf
