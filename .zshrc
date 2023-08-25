@@ -145,6 +145,7 @@ if type fd &> /dev/null; then
 		--preview 'bat -n --color=always {}'
 		--bind 'ctrl-/:change-preview-window(down|hidden|)'"
 	# Print tree structure in the preview window
+	export FZF_ALT_C_COMMAND="fd --type d --hidden"
 	export FZF_ALT_C_OPTS="--preview 'tree -C {}'"
 else
 	echo "missing dependancy: fd"
