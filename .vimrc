@@ -25,15 +25,13 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-commentary' "gc
-Plugin 'tpope/vim-fugitive' "git integration
-Plugin 'tpope/vim-markdown'
+" Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround' "ys
-Plugin 'godlygeek/tabular'
 "Plugin 'vim-scripts/ReplaceWithRegister'
 Plugin 'christoomey/vim-titlecase' "gz
-Plugin 'christoomey/vim-sort-motion' "gs
-Plugin 'ludovicchabant/vim-gutentags' "tag generation
+" Plugin 'christoomey/vim-sort-motion' "gs
+" Plugin 'ludovicchabant/vim-gutentags' "tag generation
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'airblade/vim-rooter' "makes sure fzf has project scope
@@ -47,10 +45,13 @@ Plugin 'Ron89/thesaurus_query.vim'
 Plugin 'neoclide/coc.nvim', { 'branch': 'release' }
 "Plugin 'neoclide/coc-snippets'
 "Plugin 'honza/vim-snippets'
+Plugin 'vimwiki/vimwiki'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
+set nocompatible  " be iMproved, required
+syntax on
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
@@ -135,43 +136,39 @@ command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.org
 " set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 let g:airline#extensions#coc#enabled = 1
 
-"" Tabularize
-" automatically call Taburalize when | table is detected
-inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
-
-function! s:align()
-	let p = '^\s*|\s.*\s|\s*$'
-	if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
-		let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
-		let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
-		Tabularize/|/l1
-		normal! 0
-		call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
-	endif
-endfunction
-
 "" Gutentags
 " create a tag cache to store all tags
-let g:gutentags_cache_dir="~/.tags_cache"
+" let g:gutentags_cache_dir="~/.tags_cache"
 
 "" fzf
 " use fd instead of Find
 let $FZF_DEFAULT_COMMAND = 'fd --type f'
 " let $FZF_DEFAULT_OPTS = ''
 
+"" vimwiki
+" set root directory
+let g:vimwiki_list = [{'path': '~/notes/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
+
+" don't treat all markdown files as part of vimwiki
+let g:vimwiki_global_ext = 0
+
+command! Diary VimwikiDiaryIndex
+augroup vimwikigroup
+    autocmd!
+    " automatically update links on read diary
+    autocmd BufRead,BufNewFile diary.wiki VimwikiDiaryGenerateLinks
+augroup end
+
 """"""""""""""""""""""""""""""""""
 "    Colorscheme/UI Modifiers    "
 """"""""""""""""""""""""""""""""""
 
-set nocompatible  " be iMproved, required
-
-filetype plugin on
 "filetype off      " required
 
 set background=dark
 autocmd vimenter * ++nested colorscheme gruvbox
 
-syntax on
 set showmatch               " show matching bracket
 set tabstop=4               " Change tab to spaces
 set shiftwidth=4            " indent size
@@ -374,6 +371,9 @@ noremap <silent> <S-Left> :vertical resize +3<CR>
 noremap <silent> <S-Right> :vertical resize -3<CR>
 noremap <silent> <S-Up> :resize +3<CR>
 noremap <silent> <S-Down> :resize -3<CR>
+
+"" Paste the date at cursor
+nnoremap <silent> <leader>now "=strftime("%c")<CR>P
 
 "" Autofolding .vimrc
 " see http://vimcasts.org/episodes/writing-a-custom-fold-expression/

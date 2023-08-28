@@ -81,6 +81,7 @@ plugins=(
 	git 
 	nvm
 	dotbare
+	zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -93,11 +94,11 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='vim'
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -166,55 +167,55 @@ DaySuffix() {
 }
 
 # function to generate/edit today's note file
-notes() {
-	local year=$(date +"%Y")
-	local month=$(date +"%m")
-	local day=$(date +"%d")
-	local file=$year-$month-$day
-	local file_path=$HOME/notes/journal/$year/$month/$file.md
+#notes() {
+#	local year=$(date +"%Y")
+#	local month=$(date +"%m")
+#	local day=$(date +"%d")
+#	local file=$year-$month-$day
+#	local file_path=$HOME/notes/journal/$year/$month/$file.md
 
-	if [ ! -d "$HOME/notes/journal/$year/" ]; then
-		mkdir $HOME/notes/journal/$year/
-	fi
-	if [ ! -d "$HOME/notes/journal/$year/$month" ]; then
-		mkdir $HOME/notes/journal/$year/$month
-	fi
-	if [ ! -f "$file_path" ]; then
-		date +"# %A %B %-d`DaySuffix`, %Y%n%n" > $file_path
-	fi
+#	if [ ! -d "$HOME/notes/journal/$year/" ]; then
+#		mkdir $HOME/notes/journal/$year/
+#	fi
+#	if [ ! -d "$HOME/notes/journal/$year/$month" ]; then
+#		mkdir $HOME/notes/journal/$year/$month
+#	fi
+#	if [ ! -f "$file_path" ]; then
+#		date +"# %A %B %-d`DaySuffix`, %Y%n%n" > $file_path
+#	fi
 
-	vim $file_path +3 --cmd "cd ~/notes"
-}
+#	vim $file_path +3 --cmd "cd ~/notes"
+#}
 
-# function to convert the last 5 journal entries into a pdf
-jreport() {
-	local journal_path=$HOME/notes/journal
-	local current_path=$(pwd)
+## function to convert the last 5 journal entries into a pdf
+#jreport() {
+#	local journal_path=$HOME/notes/journal
+#	local current_path=$(pwd)
 
-	# cd for rg to work
-	cd $journal_path
+#	# cd for rg to work
+#	cd $journal_path
 
-	# populate txt file with YAML data
-	cat pandoc.yaml > report.txt
+#	# populate txt file with YAML data
+#	cat pandoc.yaml > report.txt
 
-	# ripgrep all journal files, compiling the 5 most recent ones
-	rg -t md --files | sort | tail -5 | \
-	xargs -I{} sh -c "cat {}; echo ''" >> $journal_path/report.txt
+#	# ripgrep all journal files, compiling the 5 most recent ones
+#	rg -t md --files | sort | tail -5 | \
+#	xargs -I{} sh -c "cat {}; echo ''" >> $journal_path/report.txt
 
-	#return to previous wd
-	cd $current_path
+#	#return to previous wd
+#	cd $current_path
 
-	# create pdf and delete txt file
-	pandoc $journal_path/report.txt -s -o $journal_path/report.pdf
-	rm $journal_path/report.txt
+#	# create pdf and delete txt file
+#	pandoc $journal_path/report.txt -s -o $journal_path/report.pdf
+#	rm $journal_path/report.txt
 
-	# requires wsl-open if using WSL2
-	xdg-open $journal_path/report.pdf
-}
+#	# requires wsl-open if using WSL2
+#	xdg-open $journal_path/report.pdf
+#}
 
-# function to generate/edit today's meditation file
-meditations() {
-	local file_path=$HOME/notes/meditations/
+## function to generate/edit today's meditation file
+#meditations() {
+#	local file_path=$HOME/notes/meditations/
 
-	vim $file_path/ --cmd "cd ~/notes"
-}
+#	vim $file_path/ --cmd "cd ~/notes"
+#}
