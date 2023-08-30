@@ -279,7 +279,7 @@ inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 " <C-g>u breaks current undo, please make your own choice.
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
 	\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-"
+
 """ Use <c-space> to trigger completion.
 if has('nvim')
 	inoremap <silent><expr> <c-space> coc#refresh()
