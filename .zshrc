@@ -139,12 +139,13 @@ if type fd &> /dev/null; then
 		--height 60% 
 		--layout=reverse 
 		--preview 'bat -n --color=always {}'
-		--border"
+		--border
+		--bind 'ctrl-p:change-preview-window(down|hidden|)'"
 	# Preview file content using bat (https://github.com/sharkdp/bat)
 	export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 	export FZF_CTRL_T_OPTS="
 		--preview 'bat -n --color=always {}'
-		--bind 'ctrl-/:change-preview-window(down|hidden|)'"
+		--bind 'ctrl-p:change-preview-window(down|hidden|)'"
 	# Print tree structure in the preview window
 	export FZF_ALT_C_COMMAND="fd --type d --hidden"
 	export FZF_ALT_C_OPTS="--preview 'tree -C {}'"

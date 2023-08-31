@@ -78,6 +78,7 @@ augroup END
 " activate with <leader>cs
 let g:tq_openoffice_en_file="/usr/share/mythes/th_en_US_v2"
 
+
 "" snippets
 
 let snips_author = "Alex Martin"
@@ -157,7 +158,7 @@ command! Diary VimwikiDiaryIndex
 augroup vimwikigroup
     autocmd!
     " automatically update links on read diary
-    autocmd BufRead,BufNewFile diary.wiki VimwikiDiaryGenerateLinks
+    autocmd BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
 augroup end
 
 """"""""""""""""""""""""""""""""""
@@ -244,10 +245,32 @@ omap <leader><tab> <plug>(fzf-maps-o)
 " Insert mode completion
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-l> <plug>(fzf-complete-line)
+" imap <c-x><c-l> <plug>(fzf-complete-line)
 
 nmap <silent> <leader>f :Files<CR>
 nmap <silent> <leader>b :Buffers<CR>
+
+" toggle fzf preview window with ctrl-p
+" It will show on the right with 50% width, but if the width is smaller
+" than 70 columns, it will show above the candidate list
+let g:fzf_preview_window = ['hidden,right,50%,<70(up,40%)', 'ctrl-p']
+
+" vim word autocomplete
+" inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'window': { 'width': 0.2, 'height': 0.9, 'xoffset': 1 }})
+
+" Global line completion (not just open buffers. ripgrep required.)
+inoremap <expr> <c-x><c-l> fzf#vim#complete(fzf#wrap({
+  \ 'prefix': '^.*$',
+  \ 'source': 'rg -n ^ --color always',
+  \ 'options': '--ansi --delimiter : --nth 3..',
+  \ 'reducer': { lines -> join(split(lines[0], ':\zs')[2:], '') }}))
+
+
+" This is the default extra key bindings
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
 
 nnoremap <silent> <Leader>/ :BLines<CR>
 nnoremap <silent> <Leader>' :Marks<CR>
@@ -358,6 +381,8 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
+"" VimWiki
+" :nmap <Leader>wx <Plug>VimwikiIndex
 
 "" Make adjusting split sizes a bit more friendly
 " Taken from DistroTube's .vimrc
