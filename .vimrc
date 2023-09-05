@@ -74,15 +74,16 @@ augroup pencil
 	autocmd FileType text         call pencil#init()
 augroup END
 
-"" thesaurus_query options
-" activate with <leader>cs
-let g:tq_openoffice_en_file="/usr/share/mythes/th_en_US_v2"
-
+"" thesaurus query
+" prevent screen from clogging up with results
+" press A<enter> to generate complete list
+let g:tq_truncation_on_syno_list_size = 200
+let g:tq_truncation_on_definition_num = 3
 
 "" snippets
 
 let snips_author = "Alex Martin"
-let snips_email = "cynric123@gmail.com"
+let snips_email = "amartin413@protonmail.com"
 let snips_github = "cynric123"
 
 "" Coc.vim
@@ -146,6 +147,9 @@ let g:airline#extensions#coc#enabled = 1
 let $FZF_DEFAULT_COMMAND = 'fd --type f'
 " let $FZF_DEFAULT_OPTS = ''
 
+" initialize configuration dictionary
+let g:fzf_vim = {}
+
 "" vimwiki
 " set root directory
 let g:vimwiki_list = [{'path': '~/notes/',
@@ -201,7 +205,7 @@ set shortmess+=c            " Don't pass messages to ins-completion-menu.
 """"""""""""""""""""""""""
 "    Keybinds/Scripts    "
 """"""""""""""""""""""""""
-"" Generic mapping
+"" generic mapping
 
 " leader key
 let mapleader=" " " map leader to space
@@ -231,7 +235,7 @@ inoremap jk <ESC>
 " turn on spell check for markdown files
 autocmd FileType markdown setlocal spell spelllang=en
 
-"" Goyo
+"" goyo
 nnoremap <silent><Leader>gy :Goyo<CR>
 " autocmd! User GoyoEnter Limelight
 " autocmd! User GoyoLeave Limelight!
@@ -280,7 +284,7 @@ nnoremap <silent> <Leader>hh :History<CR>
 nnoremap <silent> <Leader>h: :History:<CR>
 nnoremap <silent> <Leader>h/ :History/<CR> 
 
-"" Coc.vim
+"" coc.vim
 " Each subfold contains keybind context.
 """ use <leader>rn to rename symbol.
 nmap <leader>rn <Plug>(coc-rename)
@@ -373,7 +377,7 @@ nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
 " Find symbol of current document.
 nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
 " Search workspace symbols.
-nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+" nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
 nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 " Do default action for previous item.
@@ -381,8 +385,9 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
+
 "" VimWiki
-" :nmap <Leader>wx <Plug>VimwikiIndex
+" nmap <Leader>wx <Plug>VimwikiIndex
 
 "" Make adjusting split sizes a bit more friendly
 " Taken from DistroTube's .vimrc

@@ -136,10 +136,11 @@ if type fd &> /dev/null; then
 	export FZF_DEFAULT_COMMAND="fd --type f --strip-cwd-prefix --hidden --follow"
 	# export FZF_DEFAULT_OPTS="--preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
 	export FZF_DEFAULT_OPTS="
-		--height 60% 
-		--layout=reverse 
+		--height 60%
+		--layout=reverse
 		--preview 'bat -n --color=always {}'
 		--border
+		--multi
 		--bind 'ctrl-p:change-preview-window(down|hidden|)'"
 	# Preview file content using bat (https://github.com/sharkdp/bat)
 	export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
