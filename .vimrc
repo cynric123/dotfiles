@@ -231,7 +231,7 @@ imap <F2> <ESC>:w<CR>i
 inoremap jk <ESC>
 " Auto generate tags file on file write of *.c and *.h files
 " autocmd BufWritePost *.c,*.h silent! !ctags . &
-"
+
 " turn on spell check for markdown files
 autocmd FileType markdown setlocal spell spelllang=en
 

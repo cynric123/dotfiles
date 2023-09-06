@@ -154,7 +154,7 @@ else
 	echo "missing dependancy: fd"
 fi
 
-#cused to source keybinds related to fzf
+# used to source keybinds related to fzf
 # source /usr/share/fzf/keybinds.zsh
 # source /usr/share/fzf/completion.zsh
 
