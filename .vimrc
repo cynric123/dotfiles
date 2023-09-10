@@ -153,7 +153,9 @@ let g:fzf_vim = {}
 "" vimwiki
 " set root directory
 let g:vimwiki_list = [{'path': '~/notes/',
-                      \ 'syntax': 'markdown', 'ext': '.md'}]
+					\ 'syntax': 'markdown', 
+					\ 'ext': '.md',
+					\ 'auto_generate_tags': 1}]
 
 " don't treat all markdown files as part of vimwiki
 let g:vimwiki_global_ext = 0
