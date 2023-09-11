@@ -47,6 +47,7 @@ Plugin 'honza/vim-snippets'
 " Plugin 'neoclide/coc.nvim', { 'branch': 'release' }
 "Plugin 'neoclide/coc-snippets'
 Plugin 'vimwiki/vimwiki'
+Plugin 'lervag/vimtex'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -176,6 +177,9 @@ augroup vimwikigroup
     " automatically update links on read diary
     autocmd BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
 augroup end
+
+"" VimTeX
+
 
 """"""""""""""""""""""""""""""""""
 "    Colorscheme/UI Modifiers    "
