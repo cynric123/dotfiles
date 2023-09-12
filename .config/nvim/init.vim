@@ -24,6 +24,8 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
+
+"" keystroke commands
 Plugin 'tpope/vim-commentary' "gc
 " Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
@@ -31,10 +33,13 @@ Plugin 'tpope/vim-surround' "ys
 "Plugin 'vim-scripts/ReplaceWithRegister'
 Plugin 'christoomey/vim-titlecase' "gz
 " Plugin 'christoomey/vim-sort-motion' "gs
-" Plugin 'ludovicchabant/vim-gutentags' "tag generation
+
+"" file navigation
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'airblade/vim-rooter' "makes sure fzf has project scope
+
+"" writing/interface
 Plugin 'junegunn/goyo.vim' "distraction free mode
 Plugin 'junegunn/limelight.vim' "selective highlighting
 Plugin 'morhetz/gruvbox'
@@ -42,12 +47,14 @@ Plugin 'vim-airline/vim-airline' "fancier status bar
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'preservim/vim-pencil'
 Plugin 'Ron89/thesaurus_query.vim'
+Plugin 'vimwiki/vimwiki'
+Plugin 'lervag/vimtex'
+
+"" programming
+" Plugin 'ludovicchabant/vim-gutentags' "tag generation
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 " Plugin 'neoclide/coc.nvim', { 'branch': 'release' }
-"Plugin 'neoclide/coc-snippets'
-Plugin 'vimwiki/vimwiki'
-" Plugin 'lervag/vimtex' "complex setup, not worth it for now
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -90,7 +97,6 @@ let snips_github = "cynric123"
 
 "" Coc.vim
 
-" " Change the CoC autocomplete menu to a less obtrusive color
 " function! s:my_colors_setup() abort
 " 	highlight CocSearch ctermfg=109 guifg=#83a598
 " endfunction
@@ -139,14 +145,6 @@ let snips_github = "cynric123"
 " " provide custom statusline: lightline.vim, vim-airline.
 " " set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " let g:airline#extensions#coc#enabled = 1
-
-"" Ultisnips
-" Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
-" - https://github.com/Valloric/YouCompleteMe
-" - https://github.com/nvim-lua/completion-nvim
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-f>"
-let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 "" Gutentags
 " create a tag cache to store all tags
@@ -285,7 +283,6 @@ inoremap <expr> <c-x><c-l> fzf#vim#complete(fzf#wrap({
   \ 'options': '--ansi --delimiter : --nth 3..',
   \ 'reducer': { lines -> join(split(lines[0], ':\zs')[2:], '') }}))
 
-
 " This is the default extra key bindings
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
@@ -299,6 +296,15 @@ nnoremap <silent> <Leader>H :Helptags<CR>
 nnoremap <silent> <Leader>hh :History<CR>
 nnoremap <silent> <Leader>h: :History:<CR>
 nnoremap <silent> <Leader>h/ :History/<CR> 
+
+
+"" Ultisnips
+" Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
+" - https://github.com/Valloric/YouCompleteMe
+" - https://github.com/nvim-lua/completion-nvim
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
 "" VimWiki
 " nmap <Leader>wx <Plug>VimwikiIndex
