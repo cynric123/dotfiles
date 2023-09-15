@@ -112,6 +112,9 @@ fi
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 
+# replace vim with nvim
+alias vim=nvim
+
 # setup config fileshare alias
 if type dotbare &> /dev/null; then
 	alias dots='dotbare'
