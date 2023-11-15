@@ -12,6 +12,8 @@
 " yarn - Used in coc.vim folder to compile the plugin.
 " git - Used in vim-fugitive.
 " th_en_US_v2 - Any valid thesaurus will do.
+" python3 (and pip3) - Used by Ultisnips
+" sympy - python libaries for symbolic mathematical calculations
 
 """""""""""""""""
 "    Plugins    "
@@ -24,17 +26,19 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
+
+"" keystroke commands
 Plugin 'tpope/vim-commentary' "gc
-" Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround' "ys
-"Plugin 'vim-scripts/ReplaceWithRegister'
 Plugin 'christoomey/vim-titlecase' "gz
-" Plugin 'christoomey/vim-sort-motion' "gs
-" Plugin 'ludovicchabant/vim-gutentags' "tag generation
+
+"" file navigation
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'airblade/vim-rooter' "makes sure fzf has project scope
+
+"" writing/user interface
 Plugin 'junegunn/goyo.vim' "distraction free mode
 Plugin 'junegunn/limelight.vim' "selective highlighting
 Plugin 'morhetz/gruvbox'
@@ -42,12 +46,14 @@ Plugin 'vim-airline/vim-airline' "fancier status bar
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'preservim/vim-pencil'
 Plugin 'Ron89/thesaurus_query.vim'
+Plugin 'vimwiki/vimwiki'
+Plugin 'lervag/vimtex'
+
+"" programming
+" Plugin 'ludovicchabant/vim-gutentags' "tag generation
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 " Plugin 'neoclide/coc.nvim', { 'branch': 'release' }
-"Plugin 'neoclide/coc-snippets'
-Plugin 'vimwiki/vimwiki'
-" Plugin 'lervag/vimtex' "complex setup, not worth it for now
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -82,15 +88,14 @@ augroup END
 let g:tq_truncation_on_syno_list_size = 200
 let g:tq_truncation_on_definition_num = 3
 
-"" snippets
+"" ultisnips
 
 let snips_author = "Alex Martin"
 let snips_email = "amartin413@protonmail.com"
 let snips_github = "cynric123"
 
-"" Coc.vim
+"" coc.vim
 
-" " Change the CoC autocomplete menu to a less obtrusive color
 " function! s:my_colors_setup() abort
 " 	highlight CocSearch ctermfg=109 guifg=#83a598
 " endfunction
@@ -140,15 +145,7 @@ let snips_github = "cynric123"
 " " set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " let g:airline#extensions#coc#enabled = 1
 
-"" Ultisnips
-" Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
-" - https://github.com/Valloric/YouCompleteMe
-" - https://github.com/nvim-lua/completion-nvim
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-f>"
-let g:UltiSnipsJumpBackwardTrigger="<c-b>"
-
-"" Gutentags
+"" gutentags
 " create a tag cache to store all tags
 " let g:gutentags_cache_dir="~/.tags_cache"
 
@@ -161,12 +158,15 @@ let $FZF_DEFAULT_COMMAND = 'fd --type f'
 let g:fzf_vim = {}
 
 "" vimwiki
+" restore ultisnips tab function
+let g:vimwiki_key_mappings = { 'table_mappings': 0, }
+
 " set root directory
 let g:vimwiki_list = [{'path': '~/notes/',
-					\ 'syntax': 'markdown', 
-					\ 'ext': '.md',
-					\ 'auto_generate_tags': 1,
-					\ 'auto_toc': 1}]
+			\ 'syntax': 'markdown', 
+			\ 'ext': '.md',
+			\ 'auto_generate_tags': 1,
+			\ 'auto_toc': 1}]
 
 " don't treat all markdown files as part of vimwiki
 let g:vimwiki_global_ext = 0
@@ -179,7 +179,11 @@ augroup vimwikigroup
 augroup end
 
 "" VimTeX
-
+let g:tex_flavor='latex'
+let g:vimtex_view_method='skim'
+let g:vimtex_quickfix_mode=0
+set conceallevel=1
+let g:tex_conceal='abdmg'
 
 """"""""""""""""""""""""""""""""""
 "    Colorscheme/UI Modifiers    "
@@ -231,6 +235,9 @@ map <leader>rc :tabe $MYVIMRC<cr>
 
 " run :Rg
 map <silent> <leader>rg :Rg<CR>
+
+" easy spell check
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 " replace grep with ripgrep
 set grepprg=rg\ --vimgrep\ --smart-case\ --follow\
@@ -285,7 +292,6 @@ inoremap <expr> <c-x><c-l> fzf#vim#complete(fzf#wrap({
   \ 'options': '--ansi --delimiter : --nth 3..',
   \ 'reducer': { lines -> join(split(lines[0], ':\zs')[2:], '') }}))
 
-
 " This is the default extra key bindings
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
@@ -299,6 +305,15 @@ nnoremap <silent> <Leader>H :Helptags<CR>
 nnoremap <silent> <Leader>hh :History<CR>
 nnoremap <silent> <Leader>h: :History:<CR>
 nnoremap <silent> <Leader>h/ :History/<CR> 
+
+
+"" Ultisnips
+" Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
+" - https://github.com/Valloric/YouCompleteMe
+" - https://github.com/nvim-lua/completion-nvim
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
 "" VimWiki
 " nmap <Leader>wx <Plug>VimwikiIndex
@@ -316,8 +331,6 @@ noremap <silent> <S-Right> :vertical resize -3<CR>
 noremap <silent> <S-Up> :resize +3<CR>
 noremap <silent> <S-Down> :resize -3<CR>
 
-"" Paste the date at cursor
-nnoremap <silent> <leader>now "=strftime("%c")<CR>P
 
 "" Autofolding .vimrc
 " see http://vimcasts.org/episodes/writing-a-custom-fold-expression/
@@ -379,6 +392,4 @@ augroup fold_vimrc
 				\ setlocal foldtext=VimFoldText() |
 	"              \ set foldcolumn=2 foldminlines=2
 augroup END
-
-
 

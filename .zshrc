@@ -98,6 +98,8 @@ if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
   export EDITOR='vim'
+  # replace vim with nvim
+  alias vim=nvim
 fi
 
 # Compilation flags
@@ -112,8 +114,6 @@ fi
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 
-# replace vim with nvim
-alias vim=nvim
 
 # setup config fileshare alias
 if type dotbare &> /dev/null; then
